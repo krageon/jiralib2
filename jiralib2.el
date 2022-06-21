@@ -162,9 +162,12 @@ Does not check for session validity."
            :headers `(("Content-Type" . "application/json")
                       ,(cond ((eq jiralib2-auth 'cookie)
                               `("cookie" . ,jiralib2--session))
-                             ((member jiralib2-auth '(basic token))
+                             ((eq jiralib2-auth 'basic)
                               `("Authorization" . ,(format "Basic %s"
-                                                           jiralib2--session)))))
+                                                           jiralib2--session)))
+                             ((eq jiralib2-auth 'token)
+                              `("Authorization" . ,(format "Bearer %s"
+                                                           jiralib2-token)))))
            :sync t
            :parser 'json-read
            args)))
